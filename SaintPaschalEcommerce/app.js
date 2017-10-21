@@ -5,11 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressHBS = require('express-handlebars');
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+mongoose.createConnection('localhost:27017/SaintPaschalEcommerce');
 
 // view engine setup
 app.engine('.hbs', expressHBS({ defaultLayout: 'layout', extname: '.hbs' }));
