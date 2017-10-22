@@ -7,8 +7,8 @@ var bodyParser = require('body-parser');
 var expressHBS = require('express-handlebars');
 var mongoose = require('mongoose');
 
-mongoose.createConnection('mongodb://localhost/SaintPaschalEcommerce');
-// This may need to be localhost:27017 instead
+mongoose.connect('localhost:27017/SaintPaschalEcommerce');
+// This may need to be localhost:27017/SaintPaschalEcommerce instead
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
@@ -34,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 
+
+// error handlers
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -41,15 +43,30 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
 
-  // render the error page
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
+
+/////////
+/////////
+
 
 module.exports = app;

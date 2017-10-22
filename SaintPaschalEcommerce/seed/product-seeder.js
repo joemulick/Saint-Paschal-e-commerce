@@ -2,8 +2,8 @@ var Product = require('../models/product');
 
 var mongoose = require('mongoose');
 
-mongoose.createConnection('mongodb://localhost/SaintPaschalEcommerce');
-// This may need to be localhost:27017 instead
+mongoose.connect('localhost:27017/SaintPaschalEcommerce');
+// This may need to be localhost:27017/SaintPaschalEcommerce instead
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
@@ -34,7 +34,6 @@ var products = [
 var done = 0;
 
 for(var i = 0 ; i < products.length ; i++){
-	console.log(products[i].title);
 	products[i].save(function(err, result){
 		done++
 		if(done === products.length){
