@@ -1,0 +1,6 @@
+.car-img-one,
+.car-img-two,
+.car-img-three{
+	max-height: 500px;
+	max-width: 500px;
+}
